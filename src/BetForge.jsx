@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react"
+import { USERS } from "./users"
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const TICK_SPEED     = 4000
@@ -60,38 +61,6 @@ const TEAMS = {
     gkDive: { L: 0.35, C: 0.15, R: 0.50 },
   },
 }
-
-const USERS = [
-  { id: 1, name: "Sakthi P", username: "sakt", password: "sakt3220" },
-  { id: 2, name: "Aghil Krishna KP", username: "aghi", password: "aghi6351" },
-  { id: 3, name: "Suraj Yadav", username: "sura", password: "sura0849" },
-  { id: 4, name: "Ritesh S", username: "rite", password: "rite7645" },
-  { id: 5, name: "Dhruv Kumar Jha", username: "dhru", password: "dhru6814" },
-  { id: 6, name: "Dhanaraj K S", username: "dhan", password: "dhan7453" },
-  { id: 7, name: "Vaibhav Mittal", username: "vaib", password: "vaib2303" },
-  { id: 8, name: "Vineet Singla", username: "vine", password: "vine9584" },
-  { id: 9, name: "Nilay Khisty", username: "nila", password: "nila4519" },
-  { id: 10, name: "Abhijeet Singh", username: "abhi", password: "abhi7265" },
-  { id: 11, name: "Darsh Viradiya", username: "dars", password: "dars0712" },
-  { id: 12, name: "Gauransh Gupta", username: "gaur", password: "gaur1187" },
-  { id: 13, name: "Dev Shah", username: "devs", password: "devs6287" },
-  { id: 14, name: "Sunny Panchal", username: "sunn", password: "sunn5064" },
-  { id: 15, name: "SIDDHANT VERMA", username: "sidd", password: "sidd2939" },
-  { id: 172, name: "Prince Gupta", username: "prin", password: "prin4068" },
-  { id: 173, name: "TAMMA SIVA SAI", username: "tamm", password: "tamm6770" },
-  { id: 174, name: "Aryan kadam", username: "arya", password: "arya4656" },
-  { id: 175, name: "Soumay Agarwal", username: "soum", password: "soum3311" },
-  { id: 176, name: "Hrushikesh Tayade", username: "hrus", password: "hrus2179" },
-  { id: 177, name: "Yash Gupta", username: "yash", password: "yash1384" },
-  { id: 178, name: "Vineet Anand", username: "vine", password: "vine0934" },
-  { id: 179, name: "Shreya Salhotra", username: "shre", password: "shre7334" },
-  { id: 180, name: "Bikram Barman", username: "bikr", password: "bikr3493" },
-  { id: 200, name: "Tanmay Agrawal", username: "tanm", password: "tanm8099" },
-  { id: 201, name: "yuvraj pancholi", username: "yuvr", password: "yuvr5508" },
-  { id: 210, name: "Abhinav Anand", username: "abhi", password: "abhi1715" },
-  { id: 242, name: "Udhitha Boddepalli", username: "udhi", password: "udhi5217" },
-  { id: 300, name: "Sahil Ratna", username: "sahi", password: "sahi8166" },
-]
 
 // ─── MATH ─────────────────────────────────────────────────────────────────────
 const r = Math.random
@@ -256,12 +225,25 @@ button:active{filter:brightness(0.9)}
 `
 
 export default function App() {
-  const [user, setUser] = useState(null)
-  const [view, setView] = useState("login") // login | game | admin
+  const [user, setUser] = useState(() => {
+    try { const raw = localStorage.getItem("betforge_user"); return raw ? JSON.parse(raw) : null } catch { return null }
+  })
+  const [view, setView] = useState(() => {
+    try { return localStorage.getItem("betforge_user") ? "game" : "login" } catch { return "login" }
+  })
+
+  const handleLogin = (u) => {
+    try { localStorage.setItem("betforge_user", JSON.stringify(u)) } catch {}
+    setUser(u); setView("game")
+  }
+  const handleLogout = () => {
+    try { localStorage.removeItem("betforge_user") } catch {}
+    setUser(null); setView("login")
+  }
 
   if (view === "admin") return <AdminView onBack={() => setView("login")} />
-  if (!user) return <LoginView onLogin={(u) => { setUser(u); setView("game") }} onAdmin={() => setView("admin")} />
-  return <GameView user={user} onLogout={() => { setUser(null); setView("login") }} />
+  if (!user) return <LoginView onLogin={handleLogin} onAdmin={() => setView("admin")} />
+  return <GameView user={user} onLogout={handleLogout} />
 }
 
 // ─── LOGIN ────────────────────────────────────────────────────────────────────
