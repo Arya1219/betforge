@@ -651,10 +651,6 @@ function useMatch(user) {
     push(`⏱️ ${s1} min stoppage time planned for first half`, "system")
   }, [recalc, push])
 
-  function makeGS() {
-    return { minute: 0, score: { P: 0, A: 0 }, lP: lP0, lA: lA0, status: "prematch", events: [], redCards: { P: 0, A: 0 }, phase: "first", stoppage: { first: 0, second: 0 }, setpiece: null }
-  }
-
   const resetMatch = useCallback(() => {
     setGs(makeGS()); setBets([]); setBal(INITIAL_BAL); setOdds(null); setBetSlip(null); setStake("100")
     setNotifs([mkN("🏟️ New match! Portugal vs Argentina. Press KICK OFF to begin.", "system")])
