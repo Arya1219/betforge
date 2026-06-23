@@ -377,11 +377,7 @@ function useMatch(user) {
   const lP0 = (TEAMS.P.strength * TEAMS.P.homeAdv) / 90
   const lA0 = (TEAMS.A.strength * TEAMS.A.homeAdv) / 90
 
-  const makeGS = () => ({
-    minute: 0, score: { P: 0, A: 0 }, lP: lP0, lA: lA0,
-    status: "prematch", events: [], redCards: { P: 0, A: 0 },
-    phase: "first", stoppage: { first: 0, second: 0 }, setpiece: null,
-  })
+  
 
   const [gs, setGs]       = useState(makeGS)
   const [bets, setBets]   = useState([])
