@@ -919,6 +919,7 @@ function AdminView({ onBack }) {
   const [lb, setLb]     = useState([])
   const [loading, setLoading] = useState(false)
   const [matchConfig, setMatchConfig] = useState({ teamAStr: 1.4, teamBStr: 1.6, homeAdv: 1.2, tickSpeed: 4000 })
+  const [credSearch, setCredSearch] = useState("")
 
   const login = () => {
     if (pw === ADMIN_PASSWORD) setAuth(true)
@@ -1070,6 +1071,44 @@ function AdminView({ onBack }) {
               </div>
             </div>
           )}
+
+          {/* Credentials Table */}
+          <div style={{ marginTop: 16, background: "#0a150a", border: "1px solid #1e3e1e", borderRadius: 4, overflow: "hidden" }}>
+            <div style={{ padding: "10px 16px", borderBottom: "1px solid #1a3a1a", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#c8ff00", letterSpacing: 1.5, flexShrink: 0 }}>PARTICIPANT CREDENTIALS — {USERS.length} USERS</span>
+              <input
+                type="text"
+                placeholder="Search by name or username…"
+                value={credSearch}
+                onChange={e => setCredSearch(e.target.value)}
+                style={{ flex: 1, maxWidth: 280, background: "#0d200d", border: "1px solid #1a3a1a", borderRadius: 2, color: "#e8ffe8", fontFamily: "inherit", fontSize: 11, padding: "6px 10px", outline: "none" }}
+              />
+            </div>
+            <div style={{ maxHeight: 400, overflowY: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                <thead style={{ position: "sticky", top: 0, zIndex: 1 }}>
+                  <tr style={{ background: "#0d200d" }}>
+                    {["#", "NAME", "USERNAME", "PASSWORD"].map(h => (
+                      <th key={h} style={{ padding: "8px 14px", textAlign: "left", color: "#3a5a3a", fontWeight: 700, fontSize: 9, letterSpacing: 1, borderBottom: "1px solid #1a3a1a" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {USERS.filter(u => {
+                    const q = credSearch.trim().toLowerCase()
+                    return !q || u.name.toLowerCase().includes(q) || u.username.toLowerCase().includes(q)
+                  }).map((u, i) => (
+                    <tr key={u.id} style={{ background: i % 2 === 0 ? "#0a150a" : "#0d1a0d", borderBottom: "1px solid #111e11" }}>
+                      <td style={{ padding: "6px 14px", color: "#3a5a3a", fontSize: 10 }}>{u.id}</td>
+                      <td style={{ padding: "6px 14px", color: "#e8ffe8" }}>{u.name}</td>
+                      <td style={{ padding: "6px 14px", color: "#c8ff00", fontFamily: "monospace", fontWeight: 700 }}>{u.username}</td>
+                      <td style={{ padding: "6px 14px", color: "#4eff91", fontFamily: "monospace" }}>{u.password}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
           {/* Info */}
           <div style={{ marginTop: 16, padding: 14, background: "#0a150a", border: "1px solid #1a2a1a", borderRadius: 4 }}>
