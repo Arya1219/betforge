@@ -1,7 +1,6 @@
 // ─── MATCH CONFIG ─────────────────────────────────────────────────────────────
 
-export const TICK_SPEED = 1500      // ms per match minute — 90×1.5s = 135s ≈ 2.25 min per half
-                                    // full match ~60 real minutes including set piece pauses & HT
+export const TICK_SPEED =666  // ms per match minute 
 export const INITIAL_BALANCE = 1000
 export const MAX_BET = 500
 export const MIN_BET = 10
