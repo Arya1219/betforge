@@ -1,11 +1,13 @@
 // ─── MATCH CONFIG ─────────────────────────────────────────────────────────────
 
-export const TICK_SPEED = 4000      // ms per match minute (4000 = ~6 min full match)
+export const TICK_SPEED = 1500      // ms per match minute — 90×1.5s = 135s ≈ 2.25 min per half
+                                    // full match ~60 real minutes including set piece pauses & HT
 export const INITIAL_BALANCE = 1000
 export const MAX_BET = 500
 export const MIN_BET = 10
 export const MAX_ACTIVE_BETS = 4
 export const VIG = 0.05
+export const ADMIN_PASSWORD = 'betforge2025'
 
 // ─── TEAMS ────────────────────────────────────────────────────────────────────
 
@@ -86,7 +88,6 @@ export const GK_DIVE = {
   'E. Martínez':  { L: 0.35, C: 0.15, R: 0.50 },
 }
 
-// Anytime scorer market players
 export const SCORER_MARKET = [
   { key: 'portugal_Ronaldo',         label: 'Ronaldo',         team: 'portugal' },
   { key: 'argentina_Messi',          label: 'Messi',           team: 'argentina' },
